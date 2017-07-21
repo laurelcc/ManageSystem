@@ -28,9 +28,11 @@ repositories {
 dependencies {
     compile group:'org.springframework.boot', name:'spring-boot-starter-web'
     compile group:'org.springframework.boot', name:'spring-boot-starter-data-jpa'
-
     compile("org.webjars:jquery:2.1.1")
     compile("org.webjars:bootstrap:3.2.0")
-    compile group: 'org.webjars', name: 'angularjs', version: '1.4.3'
     compile("org.webjars:webjars-locator")
+
+    runtime('mysql:mysql-connector-java')
+
+    testCompile('org.springframework.boot:spring-boot-starter-test')
 }
