@@ -8,12 +8,10 @@
 
 package com.controller;
 
-
 import com.model.User;
 import com.service.UserService;
-import org.springframework.http.HttpEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,24 +28,36 @@ public class UserController {
     @Resource
     UserService userService;
 
+    protected String viewPath(String view){
+        return String.format("inspinia/user/%s", view);
+    }
+
     @GetMapping(value = {"", "/"})
-    public HttpEntity<List<User>> all(){
+    public String all (Model model) throws Exception{
         List<User> users = userService.getUserRepository().findAll();
+        model.addAttribute("users", users);
 
-        return new HttpEntity<>(users);
-    }
-
-    @GetMapping(value = "create")
-    public HttpEntity<User> create(User user){
-        user = userService.getUserRepository().save(user);
-        return new HttpEntity<User>(user);
-    }
-
-    @GetMapping(value = "{id}")
-    public HttpEntity<User> get(@PathVariable(name = "id") User user){
-        return new HttpEntity<User>(user);
+        throw new Exception("FEWFEW");
+//        return viewPath("list");
     }
 
 
+//    @GetMapping(value = {"", "/"})
+//    public HttpEntity<List<User>> all(){
+//        List<User> inspinia = userService.getUserRepository().findAll();
+//
+//        return new HttpEntity<>(inspinia);
+//    }
+//
+//    @GetMapping(value = "create")
+//    public HttpEntity<User> create(User user){
+//        user = userService.getUserRepository().save(user);
+//        return new HttpEntity<User>(user);
+//    }
+//
+//    @GetMapping(value = "{id}")
+//    public HttpEntity<User> get(@PathVariable(name = "id") User user){
+//        return new HttpEntity<User>(user);
+//    }
 
 }

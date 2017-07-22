@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Home Page</title>
+    <th:block th:include="partial :: commonCss"></th:block>
+</head>
+<body>
+<div id="wrapper">
+    <nav th:replace="partial :: navigation"></nav>
+
+    <div id="page-wrapper" class="gray-bg">
+        <div th:replace="partial :: navbar"></div>
+
+        <div class="row wrapper border-bottom white-bg page-heading">
+            <div class="col-lg-10">
+                <h2>示例页面</h2>
+                <ol class="breadcrumb">
+                    <li>
+                        <a href="index.html">Home</a>
+                    </li>
+                    <li>
+                        <a>Forms</a>
+                    </li>
+                    <li class="active">
+                        <strong>Basic Form</strong>
+                    </li>
+                </ol>
+            </div>
+            <div class="col-lg-2">
+
+            </div>
+        </div>
+
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="text-center m-t-lg">
+                        <h1>
+                            Welcome in INSPINIA Static SeedProject
+                        </h1>
+                        <small th:inline="text">
+                            It is an ss skeleton for a typical web app. You can use it to quickly bootstrap your webapp projects and dev environment for these projects.
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div th:replace="partial :: footer"></div>
+
+    </div>
+</div>
+
+<th:block th:include="partial :: commonJs"></th:block>
+</body>
+</html>
