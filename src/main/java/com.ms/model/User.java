@@ -2,22 +2,28 @@ package com.ms.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import java.util.UUID;
 
 /**
  * Created by huanbenwang on 2017/7/21.
  */
 @Entity
-@Table(name = "user")
 public class User extends BaseModel{
     private String username = "";
     private String password = "";
-    private String name = "";
     private String alias = "";
+
+    private String realName = "";
+    private String idCard = "";
     private String mobile = "";
 
-    public User(){
-        super();
+    private String country = "";
+    private String province = "";
+    private String city = "";
+    private String district = "";
+
+    @Override
+    public String toString() {
+        return String.format("User[id=%s, username=%s, password=%s, alias=%s]", getId(), username, password, alias);
     }
 
     public String getUsername() {
@@ -36,12 +42,52 @@ public class User extends BaseModel{
         this.password = password;
     }
 
-    public String getName() {
-        return name;
+    public String getRealName() {
+        return realName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setRealName(String realName) {
+        this.realName = realName;
+    }
+
+    public String getIdCard() {
+        return idCard;
+    }
+
+    public void setIdCard(String idCard) {
+        this.idCard = idCard;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(String district) {
+        this.district = district;
     }
 
     public String getAlias() {

@@ -1,7 +1,10 @@
 package com.ms.model;
 
-import javax.persistence.Column;
-import javax.persistence.MappedSuperclass;
+import org.hibernate.annotations.GenericGenerator;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
@@ -11,17 +14,19 @@ import java.util.UUID;
  */
 @MappedSuperclass
 public class BaseModel implements Serializable {
+    @Id
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
+    @Column(name = "uuid", length = 32)
     private String id = "";
 
-    @Column(columnDefinition="datetime default current_timestamp", insertable = false, updatable = false)
+//    @Column(columnDefinition="datetime default current_timestamp", insertable = false, updatable = false)
+    @CreatedDate
     private Date createTime;
 
-    @Column(columnDefinition="datetime default current_timestamp", insertable = false, updatable = false)
+//    @Column(columnDefinition="datetime default current_timestamp", insertable = false, updatable = false)
+    @LastModifiedDate
     private Date updateTime;
-
-    public BaseModel(){
-        id = UUID.randomUUID().toString();
-    }
 
     public String getId() {
         return id;
