@@ -64,7 +64,6 @@ public class UserController {
                                                                       @RequestParam(name = "draw", defaultValue = "1") Integer draw,
                                                                       @RequestParam(name = "order[0][column]", defaultValue = "0") Integer column,
                                                                       @RequestParam(name = "order[0][dir]", defaultValue = "asc") String order){
-
         Sort sort = new Sort(new Sort.Order(order.equals("asc") ? Sort.Direction.ASC : Sort.Direction.DESC , column.equals(0) ? "username" : "alias"),
                 new Sort.Order(Sort.Direction.DESC, "createdDate"));
 
@@ -74,7 +73,7 @@ public class UserController {
         if (StringUtils.isEmpty(keywords)){
             result = userService.getUserRepository().findAll(pageable);
         }else{
-            result = userService.getUserRepository().findByUsername(keywords, pageable);
+            result = userService.getUserRepository().findByUsernameContains(keywords + "", pageable);
         }
 
         List<VUser> vusers = new ArrayList<>();

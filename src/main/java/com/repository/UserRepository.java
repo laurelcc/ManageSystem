@@ -15,5 +15,5 @@ public interface UserRepository extends BaseRepository<User, String> {
     User findById(String id);
     User findByUsername(String name);
 
-    Page<User> findByUsername(String name, Pageable pageable);
+    Page<User> findByUsernameContains(String name, Pageable pageable);
 }
