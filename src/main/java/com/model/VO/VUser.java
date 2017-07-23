@@ -1,4 +1,4 @@
-package com.model.vo;
+package com.model.VO;
 
 import com.model.User;
 

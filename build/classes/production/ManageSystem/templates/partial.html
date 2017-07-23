@@ -12,9 +12,10 @@
     <th:block th:fragment="commonCss">
         <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />
         <link th:href="@{/font-awesome/css/font-awesome.css}" rel="stylesheet" />
+        <link th:href="@{/css/plugins/toastr/toastr.min.css}" rel="stylesheet" />
+
         <link th:href="@{/css/animate.css}" rel="stylesheet" />
         <link th:href="@{/css/style.css}" rel="stylesheet" />
-        <link th:href="@{/css/plugins/toastr/toastr.min.css}" rel="stylesheet" />
     </th:block>
 
 </head>
@@ -112,7 +113,7 @@
 
     <script th:src="@{/js/plugins/toastr/toastr.min.js}"></script>
 
-    <th:block th:if="${#bools.isTrue(notification)}">
+    <th:block th:if="${notification} != null">
         <script th:inline="javascript">
             /*<![CDATA[*/
             var user = /*[[${session.user}]]*/ null;
@@ -131,7 +132,7 @@
                 onclick: null,
                 showDuration: "400",
                 hideDuration: "10000",
-                timeOut: "70000",
+                timeOut: "7000",
                 extendedTimeOut: "1000",
                 showEasing: "swing",
                 hideEasing: "linear",

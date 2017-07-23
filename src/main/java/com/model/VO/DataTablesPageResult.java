@@ -1,4 +1,4 @@
-package com.model.vo;
+package com.model.VO;
 
 import java.io.Serializable;
 import java.util.List;

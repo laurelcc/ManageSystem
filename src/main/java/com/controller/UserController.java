@@ -9,16 +9,14 @@
 package com.controller;
 
 import com.model.User;
-import com.model.vo.DataTablesPageResult;
-import com.model.vo.Notification;
-import com.model.vo.VUser;
-import com.model.vo.consts.NotificationConst;
+import com.model.VO.DataTablesPageResult;
+import com.model.VO.Notification;
+import com.model.VO.VUser;
 import com.service.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -99,44 +97,96 @@ public class UserController {
 
     @PostMapping(value = "create")
     public String saveCreate(User user, Model model, RedirectAttributes attrs){
-        boolean flag = true;
-        List<String> errorTips = new ArrayList<>();
+        boolean valid = validate(model, user);
 
-        if (StringUtils.isEmpty(user.getUsername())){
-            errorTips.add("用户名不能为空");
-        }else{
-            String regex = "[a-zA-Z0-9]{4,12}";
-            boolean valid = Pattern.matches(regex, user.getUsername());
-            if (valid){
-                //用户名存在性验证
-                boolean existsUsername = userService.existsByUsername(user.getUsername());
-                if (existsUsername){
-                    errorTips.add("用户名已存在");
-                    flag = false;
-                }
-            }else{
-                errorTips.add("用户名格式不正确");
-                flag = false;
-            }
-        }
-
-        if (StringUtils.isEmpty(user.getPassword())){
-            errorTips.add("密码不能为空");
-            flag = false;
-        }
-
-        if (flag){
+        if (valid){
             userService.getUserRepository().save(user);
             Notification notify = Notification.success("新增用户", "操作成功");
             attrs.addFlashAttribute("notification", notify);
             return "redirect:" + uri;
         }else{
-            Notification notify = Notification.error("提示", StringUtils.arrayToDelimitedString(errorTips.toArray(), "<br/>"));
-            model.addAttribute("notification", notify);
-            model.addAttribute("user", user);
             return viewPath("create-update");
         }
     }
 
+    @GetMapping(value = "{id}")
+    public String read(@PathVariable(name = "id") String id, Model model){
+        User user = userService.getUserRepository().findById(id);
+        model.addAttribute("user", user);
+
+        return viewPath("detail");
+    }
+
+    @GetMapping(value = "update/{id}")
+    public String update(@PathVariable(name = "id") User user, Model model){
+        model.addAttribute(user);
+
+        return viewPath("create-update");
+    }
+
+    @PostMapping(value = "update/{id}")
+    public String saveUpdate(@PathVariable(name = "id") String id, User user, Model model){
+        boolean valid = validate(model, user);
+        if (valid){
+            User pending = userService.getUserRepository().findById(id);
+
+            pending.setUsername(user.getUsername());
+            pending.setAlias(user.getAlias());
+            pending.setProvince(user.getProvince());
+            pending.setCity(user.getCity());
+            pending.setDistrict(user.getDistrict());
+            pending.setAddress(user.getAddress());
+
+            userService.getUserRepository().save(pending);
+
+            return "redirect:/inspinia/users/" + id;
+        }else{
+            return viewPath("create-update");
+        }
+    }
+
+    /**
+     * 公共验证方法
+     * @param model
+     * @param user
+     * @return
+     */
+    protected boolean validate(Model model, User user){
+        //基本验证
+        List<String> errors = new ArrayList<>();
+
+        if (StringUtils.isEmpty(user.getUsername())){
+            errors.add("用户名不能为空");
+        }else{
+            String regex = "[a-zA-Z0-9]{4,12}";
+            if (!Pattern.matches(regex, user.getUsername())){
+                errors.add("用户名限字母或数字4-12位");
+            }
+        }
+
+        if (StringUtils.isEmpty(user.getId())){
+            if (StringUtils.isEmpty(user.getPassword())){
+                errors.add("密码不能为空");
+            }
+        }
+
+        //逻辑验证
+        if (errors.size() == 0){
+            //用户名存在性验证
+            boolean exists = userService.existsByUsername(user.getUsername(), user.getId());
+            if (exists){
+                errors.add("用户名已存在");
+            }
+        }
+
+        if (errors.size() != 0){
+            Notification notification = Notification.error("", StringUtils.arrayToDelimitedString(errors.toArray(), "<br/>"));
+            model.addAttribute("notification", notification);
+            model.addAttribute("user", user);
+            return false;
+        }
+
+        return true;
+    }
 
 }

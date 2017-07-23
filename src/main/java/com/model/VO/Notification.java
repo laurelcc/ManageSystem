@@ -1,6 +1,6 @@
-package com.model.vo;
+package com.model.VO;
 
-import com.model.vo.consts.NotificationConst;
+import com.model.VO.consts.NotificationConst;
 
 import java.io.Serializable;
 

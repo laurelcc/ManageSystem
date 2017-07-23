@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="partial :: commonMeta ('用户详情')"></th:block>
+    <th:block th:include="partial :: commonCss"></th:block>
+</head>
+<body>
+<div id="wrapper">
+    <nav th:replace="partial :: navigation"></nav>
+
+    <div id="page-wrapper" class="gray-bg" th:object="${user}">
+        <div th:replace="partial :: navbar"></div>
+
+        <div class="row wrapper border-bottom white-bg page-heading">
+            <div class="col-sm-4">
+                <h2 th:text="*{username}"></h2>
+                <ol class="breadcrumb">
+                    <li>
+                        <a href="index.html">Home</a>
+                    </li>
+                    <li>
+                        <a href="/inspinia/users">用户列表</a>
+                    </li>
+                    <li class="active">
+                        <strong>详情</strong>
+                    </li>
+                </ol>
+            </div>
+
+            <div class="col-sm-8">
+                <div class="title-action">
+                    <a th:href="*{'/inspinia/users/update/' + id}" class="btn btn-primary btn-sm">编辑</a>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-content">
+                            <form method="post" class="form-horizontal">
+                                <div class="form-group"><label class="col-lg-2 control-label">用户名</label>
+                                    <div class="col-lg-10"><p class="form-control-static" th:text="*{username}">email@example.com</p></div>
+                                </div>
+
+                                <div class="form-group"><label class="col-lg-2 control-label">昵称</label>
+                                    <div class="col-lg-10"><p class="form-control-static" th:text="*{alias}">email@example.com</p></div>
+                                </div>
+
+                                <div class="form-group"><label class="col-lg-2 control-label">地址</label>
+                                    <div class="col-lg-10"><p class="form-control-static" th:text="*{province + ' ' + city + ' ' + district + ' ' + address}">email@example.com</p></div>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div th:replace="partial :: footer"></div>
+
+    </div>
+</div>
+
+<th:block th:include="partial :: commonJs"></th:block>
+</body>
+</html>

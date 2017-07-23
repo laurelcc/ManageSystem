@@ -88,8 +88,8 @@
                     data : "id",
                     orderable: false,
                     render: function ( data, type, row ) {
-                        var id = data;
-                        return data +' ('+ row['id']+')';
+                        return '<a type="button" class="btn btn-primary btn-xs" href="/inspinia/users/'+ data +'" style="margin-bottom:inherit;">详情</a> ' +
+                                '<a type="button" class="btn btn-warning btn-xs" href="/inspinia/users/update/'+ data +'" style="margin-bottom:inherit;">编辑</a>';
                     }
                 },
             ],

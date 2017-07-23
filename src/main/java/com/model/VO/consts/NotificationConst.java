@@ -1,4 +1,4 @@
-package com.model.vo.consts;
+package com.model.VO.consts;
 
 /**
  * Created by soong on 2017/7/23.
