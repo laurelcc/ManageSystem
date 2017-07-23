@@ -3,18 +3,18 @@
 
 <head>
 
-    <th:block th:fragment="commonMeta">
+    <th:block th:fragment="commonMeta (title)">
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title th:text="'INSPINIA - ' + ${title}"></title>
     </th:block>
 
-    <title>INSPINIA | Main view</title>
-
     <th:block th:fragment="commonCss">
-        <link th:href="@{css/bootstrap.min.css}" rel="stylesheet" />
-        <link th:href="@{font-awesome/css/font-awesome.css}" rel="stylesheet" />
-        <link th:href="@{css/animate.css}" rel="stylesheet" />
-        <link th:href="@{css/style.css}" rel="stylesheet" />
+        <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />
+        <link th:href="@{/font-awesome/css/font-awesome.css}" rel="stylesheet" />
+        <link th:href="@{/css/animate.css}" rel="stylesheet" />
+        <link th:href="@{/css/style.css}" rel="stylesheet" />
+        <link th:href="@{/css/plugins/toastr/toastr.min.css}" rel="stylesheet" />
     </th:block>
 
 </head>
@@ -102,14 +102,48 @@
 
 <th:block th:fragment="commonJs">
     <!-- Mainly scripts -->
-    <script th:src="@{js/jquery-2.1.1.js}"></script>
-    <script th:src="@{js/bootstrap.min.js}"></script>
-    <script th:src="@{js/plugins/metisMenu/jquery.metisMenu.js}"></script>
-    <script th:src="@{js/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
-
+    <script th:src="@{/js/jquery-2.1.1.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/plugins/metisMenu/jquery.metisMenu.js}"></script>
+    <script th:src="@{/js/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
     <!-- Custom and plugin javascript -->
-    <script th:src="@{js/inspinia.js}"></script>
-    <script th:src="@{js/plugins/pace/pace.min.js}"></script>
+    <script th:src="@{/js/inspinia.js}"></script>
+    <script th:src="@{/js/plugins/pace/pace.min.js}"></script>
+
+    <script th:src="@{/js/plugins/toastr/toastr.min.js}"></script>
+
+    <th:block th:if="${#bools.isTrue(notification)}">
+        <script th:inline="javascript">
+            /*<![CDATA[*/
+            var user = /*[[${session.user}]]*/ null;
+            var close = /*[[${#bools.isTrue(notification.close)}]]*/ true;
+            var bar = /*[[${#bools.isTrue(notification.close)}]]*/ true;
+            var title = /*[[${notification.title}]]*/ '';
+            var message = /*[[${notification.message}]]*/ '';
+            var position = /*[[${notification.position}]]*/ '';
+            var type = /*[[${notification.type}]]*/ 'info';
+
+            toastr.options = {
+                closeButton: close,
+                debug: false,
+                progressBar: bar,
+                positionClass: position || 'toast-top-right',
+                onclick: null,
+                showDuration: "400",
+                hideDuration: "10000",
+                timeOut: "70000",
+                extendedTimeOut: "1000",
+                showEasing: "swing",
+                hideEasing: "linear",
+                showMethod: "fadeIn",
+                hideMethod: "fadeOut"
+            };
+
+            toastr[type](message, title);
+            /*]]>*/
+        </script>
+    </th:block>
+
 </th:block>
 
 

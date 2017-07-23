@@ -29,14 +29,19 @@ public class CustomBasicErrorController extends BasicErrorController {
     @Override
     public ModelAndView errorHtml(HttpServletRequest request, HttpServletResponse response) {
         logger.info("HttpStatus: {}", response.getStatus());
+
         int code = response.getStatus();
         HttpStatus status = HttpStatus.valueOf(code);
-        if (status.equals(HttpStatus.NOT_FOUND)){
-            return new ModelAndView("errors/404");
-        }else if(status.equals(HttpStatus.INTERNAL_SERVER_ERROR)){
+        if (status == null){
             return new ModelAndView("errors/500");
-        }else {
-            return new ModelAndView("unknown");
+        }else{
+            if (status.equals(HttpStatus.NOT_FOUND)){
+                return new ModelAndView("errors/404");
+            }else if(status.equals(HttpStatus.INTERNAL_SERVER_ERROR)){
+                return new ModelAndView("errors/500");
+            }else {
+                return new ModelAndView("errors/500");
+            }
         }
     }
 

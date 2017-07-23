@@ -19,6 +19,7 @@ public class User extends BaseModel{
     private String province = "";
     private String city = "";
     private String district = "";
+    private String address = "";
 
     @Override
     public String toString() {
@@ -103,5 +104,13 @@ public class User extends BaseModel{
 
     public void setMobile(String mobile) {
         this.mobile = mobile;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

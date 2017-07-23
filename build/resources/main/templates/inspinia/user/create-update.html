@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head th:with="action=(${#strings.isEmpty(user.id)} ? '新增' : '编辑')">
+    <th:block th:include="partial :: commonMeta (${action} + '用户')"></th:block>
+    <th:block th:include="partial :: commonCss"></th:block>
+</head>
+<body>
+<div id="wrapper">
+    <nav th:replace="partial :: navigation"></nav>
+
+    <div id="page-wrapper" class="gray-bg">
+        <div th:replace="partial :: navbar"></div>
+
+        <div class="row wrapper border-bottom white-bg page-heading">
+            <div class="col-lg-10">
+                <h2>新增用户</h2>
+                <ol class="breadcrumb">
+                    <li>
+                        <a href="index.html">Home</a>
+                    </li>
+                    <li>
+                        <a href="/inspinia/users">用户列表</a>
+                    </li>
+                    <li class="active">
+                        <strong th:text="${#strings.isEmpty(user.id)}?'新增':'编辑'"></strong>
+                    </li>
+                </ol>
+            </div>
+
+        </div>
+
+        <div class="wrapper wrapper-content animated fadeInRight">
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-content">
+                            <form method="post" class="form-horizontal" th:object="${user}">
+                                <div class="form-group"><label class="col-sm-2 control-label">用户名</label>
+                                    <div class="col-sm-10"><input type="text" name="username" th:value="*{username}" placeholder="用户名" class="form-control" /></div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group"><label class="col-sm-2 control-label">密码</label>
+                                    <div class="col-sm-10"><input type="password" name="password" th:value="*{password}" placeholder="密码" class="form-control" /></div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group"><label class="col-sm-2 control-label">昵称</label>
+                                    <div class="col-sm-10"><input type="text" name="alias" th:value="*{alias}" placeholder="昵称" class="form-control" /></div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group"><label class="col-sm-2 control-label">地址</label>
+                                    <div class="col-sm-10">
+                                        <div data-toggle="distpicker" class="row">
+                                            <div class="col-sm-2">
+                                                <select class="form-control" name="province" data-th-data-province="*{province}"></select>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <select class="form-control" name="city" data-th-data-province="*{city}"></select>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <select class="form-control" name="district" data-th-data-province="*{district}"></select>
+                                            </div>
+                                        </div>
+                                        <br/>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <input type="text" name="address" th:value="*{address}" placeholder="详细地址" class="form-control" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-4 col-sm-offset-2">
+                                        <button class="btn btn-primary" type="submit">保存操作</button>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div th:replace="partial :: footer"></div>
+
+    </div>
+</div>
+
+<th:block th:include="partial :: commonJs"></th:block>
+<script th:src="@{/js/plugins/distpicker/distpicker.min.js}"></script>
+</body>
+</html>
