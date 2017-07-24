@@ -96,7 +96,7 @@ public class UserController {
 
     @PostMapping(value = "create")
     public String saveCreate(User user, Model model, RedirectAttributes attrs){
-        boolean valid = validate(model, user);
+        boolean valid = validate(model, user, null);
 
         if (valid){
             userService.getUserRepository().save(user);
@@ -125,10 +125,9 @@ public class UserController {
 
     @PostMapping(value = "update/{id}")
     public String saveUpdate(@PathVariable(name = "id") String id, User user, Model model){
-        boolean valid = validate(model, user);
+        User pending = userService.getUserRepository().findById(id);
+        boolean valid = validate(model, user, pending);
         if (valid){
-            User pending = userService.getUserRepository().findById(id);
-
             pending.setUsername(user.getUsername());
             pending.setAlias(user.getAlias());
             pending.setProvince(user.getProvince());
@@ -145,26 +144,27 @@ public class UserController {
     }
 
     /**
-     * 公共验证方法
+     * 添加或修改时候的验证方法
      * @param model
-     * @param user
+     * @param newUser
+     * @param oldUser
      * @return
      */
-    protected boolean validate(Model model, User user){
+    protected boolean validate(Model model, User newUser, User oldUser){
         //基本验证
         List<String> errors = new ArrayList<>();
 
-        if (StringUtils.isEmpty(user.getUsername())){
+        if (StringUtils.isEmpty(newUser.getUsername())){
             errors.add("用户名不能为空");
         }else{
             String regex = "[a-zA-Z0-9]{4,12}";
-            if (!Pattern.matches(regex, user.getUsername())){
+            if (!Pattern.matches(regex, newUser.getUsername())){
                 errors.add("用户名限字母或数字4-12位");
             }
         }
 
-        if (StringUtils.isEmpty(user.getId())){
-            if (StringUtils.isEmpty(user.getPassword())){
+        if (StringUtils.isEmpty(newUser.getId())){
+            if (StringUtils.isEmpty(newUser.getPassword())){
                 errors.add("密码不能为空");
             }
         }
@@ -172,16 +172,25 @@ public class UserController {
         //逻辑验证
         if (errors.size() == 0){
             //用户名存在性验证
-            boolean exists = userService.existsByUsername(user.getUsername(), user.getId());
-            if (exists){
-                errors.add("用户名已存在");
+            if (oldUser != null){
+                if (!newUser.getUsername().equals(oldUser.getUsername())){
+                    boolean exists = userService.getUserRepository().existsByUsername(newUser.getUsername());
+                    if (exists){
+                        errors.add("用户名已存在");
+                    }
+                }
+            }else{
+                boolean exists = userService.getUserRepository().existsByUsername(newUser.getUsername());
+                if (exists){
+                    errors.add("用户名已存在");
+                }
             }
         }
 
         if (errors.size() != 0){
             Notification notification = Notification.error("", StringUtils.arrayToDelimitedString(errors.toArray(), "<br/>"));
             model.addAttribute("notification", notification);
-            model.addAttribute("user", user);
+            model.addAttribute("user", newUser);
             return false;
         }
 
