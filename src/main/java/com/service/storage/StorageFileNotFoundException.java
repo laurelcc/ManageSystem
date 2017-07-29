@@ -1,4 +1,4 @@
-package com.utils.storage;
+package com.service.storage;
 
 /**
  * Created by soong on 2017/7/2.

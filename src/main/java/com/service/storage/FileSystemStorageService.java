@@ -1,4 +1,4 @@
-package com.utils.storage;
+package com.service.storage;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;

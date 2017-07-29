@@ -1,13 +1,12 @@
-package com.utils.storage;
+package com.service.storage;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * Created by soong on 2017/7/2.
  */
-@ConfigurationProperties("utils.storage")
+@ConfigurationProperties("storage")
 public class StorageProperties {
-
     /**
      * Folder location for storing files
      */
