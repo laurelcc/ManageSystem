@@ -1,4 +1,4 @@
-package com.config;
+package com.config.security;
 
 import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
 
@@ -6,7 +6,11 @@ import org.springframework.security.web.context.AbstractSecurityWebApplicationIn
  * Created by soong on 2017/7/30.
  */
 public class SecurityWebApplicationInitializer extends AbstractSecurityWebApplicationInitializer {
+
     public SecurityWebApplicationInitializer() {
         super(WebSecurityConfig.class);
     }
+
+
+
 }
