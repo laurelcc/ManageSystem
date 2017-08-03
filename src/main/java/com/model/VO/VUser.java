@@ -1,6 +1,6 @@
 package com.model.VO;
 
-import com.model.User;
+import com.model.XUser;
 
 import java.io.Serializable;
 
@@ -22,12 +22,12 @@ public class VUser implements Serializable {
         this.city = city;
     }
 
-    public VUser(User user){
-        this.id = user.getId();
-        this.username = user.getUsername();
-        this.alias = user.getAlias();
-        this.province = user.getProvince();
-        this.city = user.getCity();
+    public VUser(XUser XUser){
+        this.id = XUser.getId();
+        this.username = XUser.getUsername();
+        this.alias = XUser.getAlias();
+        this.province = XUser.getProvince();
+        this.city = XUser.getCity();
     }
 
     public String getId() {

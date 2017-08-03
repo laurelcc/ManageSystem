@@ -8,7 +8,7 @@
 
 package com.controller;
 
-import com.model.User;
+import com.model.XUser;
 import com.model.VO.DataTablesPageResult;
 import com.model.VO.Notification;
 import com.model.VO.VUser;
@@ -48,7 +48,7 @@ public class UserController {
      * @return
      */
     protected String viewPath(String view){
-        return String.format("inspinia/user/%s", view);
+        return String.format("inspinia/XUser/%s", view);
     }
 
     @GetMapping(value = {"", "/"})
@@ -69,7 +69,7 @@ public class UserController {
 
         Pageable pageable = new PageRequest(start / length, length, sort);
 
-        Page<User> result;
+        Page<XUser> result;
         if (StringUtils.isEmpty(keywords)){
             result = userService.getUserRepository().findAll(pageable);
         }else{
@@ -79,7 +79,7 @@ public class UserController {
         List<VUser> vusers = new ArrayList<>();
         int size = result.getContent().size();
         for (int i  =0; i < size; i++ ){
-            User u = result.getContent().get(i);
+            XUser u = result.getContent().get(i);
             vusers.add(new VUser(u));
         }
 
@@ -88,18 +88,18 @@ public class UserController {
     }
 
     @GetMapping(value = "create")
-    public String create(User user, Model model){
-        model.addAttribute("user", user);
+    public String create(XUser XUser, Model model){
+        model.addAttribute("XUser", XUser);
 
         return viewPath("create-update");
     }
 
     @PostMapping(value = "create")
-    public String saveCreate(User user, Model model, RedirectAttributes attrs){
-        boolean valid = validate(model, user, null);
+    public String saveCreate(XUser XUser, Model model, RedirectAttributes attrs){
+        boolean valid = validate(model, XUser, null);
 
         if (valid){
-            userService.getUserRepository().save(user);
+            userService.getUserRepository().save(XUser);
             Notification notify = Notification.success("新增用户", "操作成功");
             attrs.addFlashAttribute("notification", notify);
             return "redirect:" + uri;
@@ -110,30 +110,30 @@ public class UserController {
 
     @GetMapping(value = "{id}")
     public String read(@PathVariable(name = "id") String id, Model model){
-        User user = userService.getUserRepository().findById(id);
-        model.addAttribute("user", user);
+        XUser XUser = userService.getUserRepository().findById(id);
+        model.addAttribute("XUser", XUser);
 
         return viewPath("detail");
     }
 
     @GetMapping(value = "update/{id}")
-    public String update(@PathVariable(name = "id") User user, Model model){
-        model.addAttribute(user);
+    public String update(@PathVariable(name = "id") XUser XUser, Model model){
+        model.addAttribute(XUser);
 
         return viewPath("create-update");
     }
 
     @PostMapping(value = "update/{id}")
-    public String saveUpdate(@PathVariable(name = "id") String id, User user, Model model){
-        User pending = userService.getUserRepository().findById(id);
-        boolean valid = validate(model, user, pending);
+    public String saveUpdate(@PathVariable(name = "id") String id, XUser XUser, Model model){
+        XUser pending = userService.getUserRepository().findById(id);
+        boolean valid = validate(model, XUser, pending);
         if (valid){
-            pending.setUsername(user.getUsername());
-            pending.setAlias(user.getAlias());
-            pending.setProvince(user.getProvince());
-            pending.setCity(user.getCity());
-            pending.setDistrict(user.getDistrict());
-            pending.setAddress(user.getAddress());
+            pending.setUsername(XUser.getUsername());
+            pending.setAlias(XUser.getAlias());
+            pending.setProvince(XUser.getProvince());
+            pending.setCity(XUser.getCity());
+            pending.setDistrict(XUser.getDistrict());
+            pending.setAddress(XUser.getAddress());
 
             userService.getUserRepository().save(pending);
 
@@ -146,25 +146,25 @@ public class UserController {
     /**
      * 添加或修改时候的验证方法
      * @param model
-     * @param newUser
-     * @param oldUser
+     * @param newXUser
+     * @param oldXUser
      * @return
      */
-    protected boolean validate(Model model, User newUser, User oldUser){
+    protected boolean validate(Model model, XUser newXUser, XUser oldXUser){
         //基本验证
         List<String> errors = new ArrayList<>();
 
-        if (StringUtils.isEmpty(newUser.getUsername())){
+        if (StringUtils.isEmpty(newXUser.getUsername())){
             errors.add("用户名不能为空");
         }else{
             String regex = "[a-zA-Z0-9]{4,12}";
-            if (!Pattern.matches(regex, newUser.getUsername())){
+            if (!Pattern.matches(regex, newXUser.getUsername())){
                 errors.add("用户名限字母或数字4-12位");
             }
         }
 
-        if (StringUtils.isEmpty(newUser.getId())){
-            if (StringUtils.isEmpty(newUser.getPassword())){
+        if (StringUtils.isEmpty(newXUser.getId())){
+            if (StringUtils.isEmpty(newXUser.getPassword())){
                 errors.add("密码不能为空");
             }
         }
@@ -172,15 +172,15 @@ public class UserController {
         //逻辑验证
         if (errors.size() == 0){
             //用户名存在性验证
-            if (oldUser != null){
-                if (!newUser.getUsername().equals(oldUser.getUsername())){
-                    boolean exists = userService.getUserRepository().existsByUsername(newUser.getUsername());
+            if (oldXUser != null){
+                if (!newXUser.getUsername().equals(oldXUser.getUsername())){
+                    boolean exists = userService.getUserRepository().existsByUsername(newXUser.getUsername());
                     if (exists){
                         errors.add("用户名已存在");
                     }
                 }
             }else{
-                boolean exists = userService.getUserRepository().existsByUsername(newUser.getUsername());
+                boolean exists = userService.getUserRepository().existsByUsername(newXUser.getUsername());
                 if (exists){
                     errors.add("用户名已存在");
                 }
@@ -190,7 +190,7 @@ public class UserController {
         if (errors.size() != 0){
             Notification notification = Notification.error("", StringUtils.arrayToDelimitedString(errors.toArray(), "<br/>"));
             model.addAttribute("notification", notification);
-            model.addAttribute("user", newUser);
+            model.addAttribute("XUser", newXUser);
             return false;
         }
 

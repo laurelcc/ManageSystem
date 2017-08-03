@@ -1,8 +1,6 @@
 package com.service;
 
-import com.model.User;
 import com.repository.UserRepository;
-import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org">
-<head th:with="action=(${#strings.isEmpty(user.id) ? '新增' : '编辑'})">
+<head th:with="action=(${#strings.isEmpty(XUser.id) ? '新增' : '编辑'})">
     <th:block th:include="partial :: commonMeta (${action} + '用户')"></th:block>
     <th:block th:include="partial :: commonCss"></th:block>
 </head>
 <body>
-<div id="wrapper" th:with="flag=${#strings.isEmpty(user.id)}">
+<div id="wrapper" th:with="flag=${#strings.isEmpty(XUser.id)}">
     <nav th:replace="partial :: navigation"></nav>
 
     <div id="page-wrapper" class="gray-bg">
@@ -13,7 +13,7 @@
 
         <div class="row wrapper border-bottom white-bg page-heading">
             <div class="col-lg-10">
-                <h2 th:text="${flag ? '新增用户' : user.username}">新增用户</h2>
+                <h2 th:text="${flag ? '新增用户' : XUser.username}">新增用户</h2>
                 <ol class="breadcrumb">
                     <li>
                         <a href="index.html">Home</a>
@@ -35,7 +35,7 @@
                 <div class="col-lg-12">
                     <div class="ibox float-e-margins">
                         <div class="ibox-content">
-                            <form method="post" class="form-horizontal" th:object="${user}">
+                            <form method="post" class="form-horizontal" th:object="${XUser}">
                                 <div class="form-group"><label class="col-sm-2 control-label">用户名</label>
                                     <div class="col-sm-10"><input type="text" name="username" th:value="*{username}" placeholder="用户名" class="form-control" /></div>
                                 </div>
@@ -101,9 +101,9 @@
 
 <script th:inline="javascript">
     /*<![CDATA[*/
-    var province = /*[[${user.province}]]*/ '四川省';
-    var city = /*[[${user.city}]]*/ '成都市';
-    var district = /*[[${user.district}]]*/ '武侯区';
+    var province = /*[[${XUser.province}]]*/ '四川省';
+    var city = /*[[${XUser.city}]]*/ '成都市';
+    var district = /*[[${XUser.district}]]*/ '武侯区';
     $("[data-toggle=distpicker]").distpicker({
         province: province,
         city: city,

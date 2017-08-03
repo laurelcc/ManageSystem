@@ -116,7 +116,7 @@
     <th:block th:if="${notification} != null">
         <script th:inline="javascript">
             /*<![CDATA[*/
-            var user = /*[[${session.user}]]*/ null;
+            var XUser = /*[[${session.XUser}]]*/ null;
             var close = /*[[${#bools.isTrue(notification.close)}]]*/ true;
             var bar = /*[[${#bools.isTrue(notification.close)}]]*/ true;
             var title = /*[[${notification.title}]]*/ '';

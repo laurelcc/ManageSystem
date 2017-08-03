@@ -6,7 +6,7 @@ import javax.persistence.Entity;
  * Created by huanbenwang on 2017/7/21.
  */
 @Entity
-public class User extends BaseModel{
+public class XUser extends BaseModel{
     private String username = "";
     private String password = "";
     private String alias = "";
@@ -23,7 +23,7 @@ public class User extends BaseModel{
 
     @Override
     public String toString() {
-        return String.format("User[id=%s, username=%s, password=%s, alias=%s]", getId(), username, password, alias);
+        return String.format("XUser[id=%s, username=%s, password=%s, alias=%s]", getId(), username, password, alias);
     }
 
     public String getUsername() {
