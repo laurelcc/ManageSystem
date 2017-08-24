@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.web.ErrorProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 
 /**
  * Created by soong on 2017/7/22.
@@ -50,4 +51,19 @@ public class CommonBeanConfig {
      * 使用@ControllerAdvice注解一个类，然后在其内部定义一个@ExceptionHandler注解过的方法，同方式3类似
      * 优点是覆盖到所有controller控制器上
      */
+
+    /**
+     * 异常统一处理方式4
+     * @return
+     */
+//    @Bean
+//    public SimpleMappingExceptionResolver simpleMappingExceptionResolver(){
+//        SimpleMappingExceptionResolver resolver = new SimpleMappingExceptionResolver();
+//
+////        resolver.addStatusCode("", 404);
+////        resolver.addStatusCode("", 500);
+//
+//        return resolver;
+//    }
+
 }
