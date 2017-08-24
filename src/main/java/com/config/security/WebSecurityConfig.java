@@ -3,7 +3,11 @@ package com.config.security;
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+<<<<<<< HEAD
 import org.springframework.security.access.annotation.Secured;
+=======
+import org.springframework.context.annotation.Configuration;
+>>>>>>> b0ca07ef4e375cf7a993ed341c2c9427d81fcb92
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.ProviderManager;
@@ -23,30 +27,18 @@ import org.springframework.security.web.csrf.CsrfLogoutHandler;
 /**
  * Created by soong on 2017/7/30.
  */
+@Configuration
 @EnableWebSecurity
+<<<<<<< HEAD
 //@EnableGlobalMethodSecurity(securedEnabled = true)
+=======
+@EnableGlobalMethodSecurity(securedEnabled = true)
+>>>>>>> b0ca07ef4e375cf7a993ed341c2c9427d81fcb92
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private DataSource dataSource;
-
-//    AuthenticationManager
-//    ProviderManager
-
-//    FilterChainProxy
-
-
-
-//    @Autowired
-//    private CustomAuthenticationProvider authProvider;
-
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth
-                .jdbcAuthentication()
-                .dataSource(dataSource)
-                .withUser("user").password("password").roles("USER").and()
-                .withUser("admin").password("password").roles("USER", "ADMIN");
+    public void configureGlobal(AuthenticationManagerBuilder auth, CustomDataUserDetailsService service) throws Exception {
+        auth.userDetailsService(service);
     }
 
     @Override
@@ -56,6 +48,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().loginPage("/login").permitAll()
+                .and()
+                .logout()
                 .and()
                 .httpBasic();
 
@@ -76,19 +70,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public CustomAuthenticationProvider customAuthenticationProvider() {
-        return new CustomAuthenticationProvider();
-    }
-
-    @Bean
     public CustomDataUserDetailsService customUserDetailsService() {
-        return new CustomDataUserDetailsService();
+        CustomDataUserDetailsService service = new CustomDataUserDetailsService();
+        return service;
     }
 
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-
+//    public CustomAuthenticationProvider customAuthenticationProvider() {
+//        CustomAuthenticationProvider provider = new CustomAuthenticationProvider();
+//        return provider;
+//    }
+//
+//    public BCryptPasswordEncoder passwordEncoder() {
+//        return new BCryptPasswordEncoder();
+//    }
 }
